@@ -21,20 +21,61 @@ class Adyatan extends Command
      */
     protected $description = 'Updates the application via the git repository.';
 
+    /**
+     * Whether the application should be in maintenance mode during the update or not.
+     *
+     * @var bool
+     */
     protected $shouldEnableMaintenanceMode;
 
+    /**
+     * Whether the maintenance mode should be disabled after the update or not.
+     *
+     * @var bool
+     */
     protected $shouldDisableMaintenanceMode;
 
+    /**
+     * Whether the script should restart the supervisor or not.
+     * This is only tested on Debian systems.
+     *
+     * @var bool
+     */
     protected $shouldRestartSupervisor;
 
+    /**
+     * Whether the application caches should be cleared during the update or not.
+     *
+     * @var bool
+     */
     protected $shouldClearCaches;
 
+    /**
+     * Whether the application caches should be rebuild after the update or not.
+     *
+     * @var bool
+     */
     protected $shouldRebuildCaches;
 
+    /**
+     * Whether the script should pull from git or not.
+     *
+     * @var bool
+     */
     protected $shouldPullFromGit;
 
+    /**
+     * Whether the composer dependencies should be updated during the update or not.
+     *
+     * @var bool
+     */
     protected $shouldUpdateDependencies;
 
+    /**
+     * Whether the tables should be migrated during the update or not.
+     *
+     * @var bool
+     */
     protected $shouldMigrateTables;
 
     /**
@@ -65,7 +106,12 @@ class Adyatan extends Command
 		exit();
     }
 
-    protected function questions()
+    /**
+     * Ask for user input in interactive mode to set options.
+     *
+     * @return void
+     */
+    protected function questions(): void
     {
         $this->shouldEnableMaintenanceMode  = $this->confirm('Do you wish to put your application in maintenance mode?', true);
         $this->shouldDisableMaintenanceMode = $this->confirm('Do you wish to disable maintenance mode afterwards?', true);
@@ -77,7 +123,12 @@ class Adyatan extends Command
         $this->shouldMigrateTables          = $this->confirm('Do you wish to migrate your tables?', true);
     }
 
-    protected function setOptions()
+    /**
+     * Set options via config file in non-interactive mode.
+     *
+     * @return void
+     */
+    protected function setOptions(): void
     {
         $this->shouldEnableMaintenanceMode  = config('adyatan.options.shouldEnableMaintenanceMode');
         $this->shouldDisableMaintenanceMode = config('adyatan.options.shouldDisableMaintenanceMode');
@@ -89,7 +140,13 @@ class Adyatan extends Command
         $this->shouldMigrateTables          = config('adyatan.options.shouldMigrateTables');
     }
 
-    protected function checkEnvironment()
+    /**
+     * Check the current environment. If environment is production and
+     * run_in_production is disabled, the script will exit here.
+     *
+     * @return void
+     */
+    protected function checkEnvironment(): void
     {
         if (\App::environment() == 'production' && ! config('adyatan.run_in_production')) {
             $this->error('Adyatan has been disabled for production. You can enable it in the adyatan config.');
@@ -97,7 +154,13 @@ class Adyatan extends Command
         }
     }
 
-    protected function passwordProtection()
+    /**
+     * Check for password protection. If set ask for the corresponding
+     * password and compare it to the configs password.
+     *
+     * @return void
+     */
+    protected function passwordProtection(): void
     {
         if (! config('adyatan.password')) {
             return;
@@ -113,7 +176,12 @@ class Adyatan extends Command
         exit();
     }
 
-    protected function enableMaintenance()
+    /**
+     * Enable maintenance mode if script is told to do so.
+     *
+     * @return void
+     */
+    protected function enableMaintenance(): void
     {
         if ($this->shouldEnableMaintenanceMode) {
 			$this->warn('Put application in maintenance mode.');
@@ -122,7 +190,12 @@ class Adyatan extends Command
         }
     }
 
-    protected function disableMaintenance()
+    /**
+     * Disable maintenance mode if script is told to do so.
+     *
+     * @return void
+     */
+    protected function disableMaintenance(): void
     {
         if ($this->shouldDisableMaintenanceMode) {
 			$this->warn('Disabling maintenance mode.');
@@ -131,7 +204,12 @@ class Adyatan extends Command
         }
     }
 
-    protected function clearCaches()
+    /**
+     * Clear application caches if script is told to do so.
+     *
+     * @return void
+     */
+    protected function clearCaches(): void
     {
         if (! $this->shouldClearCaches) {
             return;
@@ -143,7 +221,12 @@ class Adyatan extends Command
         $this->info('Caches Cleared');
     }
 
-    protected function buildCaches()
+    /**
+     * Rebuild application caches if script is told to do so.
+     *
+     * @return void
+     */
+    protected function buildCaches(): void
     {
         if (! $this->shouldRebuildCaches) {
             return;
@@ -154,17 +237,27 @@ class Adyatan extends Command
         $this->info('Caches Rebuild');
     }
 
-    protected function pullFromGit()
+    /**
+     * Pull from git if script is told to do so.
+     *
+     * @return void
+     */
+    protected function pullFromGit(): void
     {
         if (! $this->shouldPullFromGit) {
             return;
         }
         $this->warn('Pulling from Git');
-        $return = shell_exec('git pull');
+        shell_exec('git pull');
         $this->info('Pulled from Git');
     }
 
-    protected function updateDependencies()
+    /**
+     * Update composer dependencies if script is told to do so.
+     *
+     * @return void
+     */
+    protected function updateDependencies(): void
     {
 		if (! $this->shouldUpdateDependencies) {
             return;
@@ -174,7 +267,12 @@ class Adyatan extends Command
         $this->info('Dependencies updated');
     }
 
-    protected function migrateTables()
+    /**
+     * Migrate tables if script is told to do so.
+     *
+     * @return void
+     */
+    protected function migrateTables(): void
     {
 		if (! $this->shouldMigrateTables) {
             return;
@@ -184,7 +282,14 @@ class Adyatan extends Command
         $this->info('Tables migrated');
     }
 
-    protected function restartSupervisor()
+    /**
+     * Restart supervisor if script is told to do so. This requires the user to
+     * have sudo rights and possibly enter his password.
+     * Only tested on Debian based distributions.
+     *
+     * @return void
+     */
+    protected function restartSupervisor(): void
 	{
 		if (! $this->shouldRestartSupervisor) {
             return;
