@@ -3,7 +3,6 @@
 namespace JustusTheis\Adyatan;
 
 use Illuminate\Support\ServiceProvider;
-use JustusTheis\Adyatan\Adyatan;
 
 class AdyatanServiceProvider extends ServiceProvider
 {
@@ -27,7 +26,7 @@ class AdyatanServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/adyatan.php', 'adyatan');
+        $this->mergeConfigFrom(__DIR__ . '/../config/adyatan.php', 'adyatan');
     }
 
     /**
@@ -39,12 +38,12 @@ class AdyatanServiceProvider extends ServiceProvider
     {
         // Publishing the configuration file.
         $this->publishes([
-            __DIR__.'/../config/adyatan.php' => config_path('adyatan.php'),
+            __DIR__ . '/../config/adyatan.php' => config_path('adyatan.php'),
         ], 'adyatan.config');
 
         // Registering package commands.
-		$this->commands([
-			Adyatan::class
-		]);
+        $this->commands([
+            Adyatan::class
+        ]);
     }
 }
