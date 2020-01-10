@@ -1,8 +1,14 @@
-# Adyatan
+# Adyatan for Laravel
 
-Adyatan updates laravel applications via git. Take a look at [contributing.md](contributing.md) to see a to do list.
+Adyatan provides a convenient way to update Laravel applications via git. 
+Take a look at [contributing.md](contributing.md) to see a to do list.
+
+![Adyatan](https://user-images.githubusercontent.com/7760415/72115916-ede39b80-3348-11ea-8121-06fa4983955e.png)
 
 ## Installation
+> **Requires:**
+- **[PHP 7.2+](https://php.net/releases/)**
+- **[Laravel 6.0+](https://github.com/laravel/laravel)**
 
 Via Composer
 
