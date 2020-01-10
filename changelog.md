@@ -2,6 +2,14 @@
 
 All notable changes to `Adyatan` will be documented in this file.
 
+## Version 1.2
+
+### Updated
+- readme.md
+
+### Added
+- tests
+
 ## Version 1.1
 
 ### Updated
