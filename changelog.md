@@ -6,6 +6,7 @@ All notable changes to `Adyatan` will be documented in this file.
 
 ### Updated
 - readme.md
+- contributing.md
 
 ### Added
 - tests
