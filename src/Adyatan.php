@@ -149,7 +149,7 @@ class Adyatan extends Command
     {
         if (\App::environment() == 'production' && ! config('adyatan.run_in_production')) {
             $this->error('Adyatan has been disabled for production. You can enable it in the adyatan config.');
-			throw new \RuntimeException('Password incorrect.');
+			throw new \RuntimeException('Adyatan has been disabled for production. You can enable it in the adyatan config.');
         }
     }
 

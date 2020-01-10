@@ -23,6 +23,22 @@ class ConsoleTest extends TestCase
 	}
 
 	/** @test */
+	public function it_supports_non_interactive_mode()
+	{
+		config(['adyatan.options.shouldEnableMaintenanceMode' => false]);
+		config(['adyatan.options.shouldDisableMaintenanceMode' => false]);
+		config(['adyatan.options.shouldRestartSupervisor' => false]);
+		config(['adyatan.options.shouldClearCaches' => false]);
+		config(['adyatan.options.shouldRebuildCaches' => false]);
+		config(['adyatan.options.shouldPullFromGit' => false]);
+		config(['adyatan.options.shouldUpdateDependencies' => false]);
+		config(['adyatan.options.shouldMigrateTables' => false]);
+		$this->artisan('update')
+			->expectsOutput('Application updated!')
+			->expectsOutput('Thank you for using Adyatan!');
+	}
+
+	/** @test */
 	public function it_stops_when_password_is_set_and_not_entered_correctly()
 	{
 		config(['adyatan.password' => 'testPassword']);	
@@ -30,6 +46,12 @@ class ConsoleTest extends TestCase
 		$this->artisan('update')
 			->expectsQuestion('What is the password? (Your Input will not show. This is normal.)', "wrongPassword")
 			->expectsOutput('Password incorrect.');
+	}
+
+	/** @test */
+	public function it_wont_run_if_app_is_in_production_and_running_in_production_is_disabled()
+	{
+		// @ToDo
 	}
 	
 	/** @test */
@@ -90,4 +112,41 @@ class ConsoleTest extends TestCase
 
 		$this->assertEquals(false, $this->app->isDownForMaintenance());
 	}
+
+	/** @test */
+	public function it_migrates_tables()
+	{
+		$this->artisan('update --interactive')
+			->expectsQuestion('Do you wish to put your application in maintenance mode?', false)
+			->expectsQuestion('Do you wish to disable maintenance mode afterwards?', false)
+			->expectsQuestion('Do you wish to restart your supervisor?', false)
+			->expectsQuestion('Do you wish to clear the application caches?', false)
+			->expectsQuestion('Do you wish to rebuild the application caches afterwards?', false)
+			->expectsQuestion('Do you wish to pull from git?', false)
+			->expectsQuestion('Do you wish to update the application dependencies?', false)
+			->expectsQuestion('Do you wish to migrate your tables?', true)
+			->expectsOutput('Migrating Tables')
+			->expectsOutput('Tables migrated')
+			->expectsOutput('Application updated!')
+			->expectsOutput('Thank you for using Adyatan!');
+	}
+
+	/** @test */
+	public function it_clears_the_cache()
+	{
+		$this->artisan('update --interactive')
+			->expectsQuestion('Do you wish to put your application in maintenance mode?', false)
+			->expectsQuestion('Do you wish to disable maintenance mode afterwards?', false)
+			->expectsQuestion('Do you wish to restart your supervisor?', false)
+			->expectsQuestion('Do you wish to clear the application caches?', true)
+			->expectsQuestion('Do you wish to rebuild the application caches afterwards?', false)
+			->expectsQuestion('Do you wish to pull from git?', false)
+			->expectsQuestion('Do you wish to update the application dependencies?', false)
+			->expectsQuestion('Do you wish to migrate your tables?', false)
+			->expectsOutput('Clearing Caches')
+			->expectsOutput('Caches Cleared')
+			->expectsOutput('Application updated!')
+			->expectsOutput('Thank you for using Adyatan!');
+	}
+
 }
