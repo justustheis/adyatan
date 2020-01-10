@@ -1,4 +1,5 @@
 # Adyatan for Laravel
+[![Build Status](https://travis-ci.com/justustheis/adyatan.svg?branch=master)](https://travis-ci.com/justustheis/adyatan) [![codecov](https://codecov.io/gh/justustheis/adyatan/branch/master/graph/badge.svg)](https://codecov.io/gh/justustheis/adyatan)
 
 Adyatan provides a convenient way to update Laravel applications via git. 
 Take a look at [contributing.md](contributing.md) to see a to do list.
