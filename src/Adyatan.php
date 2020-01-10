@@ -135,7 +135,7 @@ class Adyatan extends Command
         $this->shouldClearCaches = config('adyatan.options.shouldClearCaches');
         $this->shouldRebuildCaches = config('adyatan.options.shouldRebuildCaches');
         $this->shouldPullFromGit = config('adyatan.options.shouldPullFromGit');
-        $this->shouldUpdateDependencies = config('adyatan.options.shouldUpdateDependecies');
+        $this->shouldUpdateDependencies = config('adyatan.options.shouldUpdateDependencie');
         $this->shouldMigrateTables = config('adyatan.options.shouldMigrateTables');
     }
 
