@@ -103,7 +103,6 @@ class Adyatan extends Command
         $this->line("");
         $this->info('Application updated!');
         $this->info('Thank you for using Adyatan!');
-        exit();
     }
 
     /**
@@ -150,7 +149,7 @@ class Adyatan extends Command
     {
         if (\App::environment() == 'production' && ! config('adyatan.run_in_production')) {
             $this->error('Adyatan has been disabled for production. You can enable it in the adyatan config.');
-            exit();
+			throw new \RuntimeException('Password incorrect.');
         }
     }
 
@@ -170,10 +169,10 @@ class Adyatan extends Command
 
         if ($password == config('adyatan.password')) {
             return;
-        }
+		}
 
-        $this->error('Password incorrect.');
-        exit();
+		$this->error('Password incorrect.');
+		throw new \RuntimeException('Password incorrect.');
     }
 
     /**
@@ -186,7 +185,7 @@ class Adyatan extends Command
         if ($this->shouldEnableMaintenanceMode) {
             $this->warn('Put application in maintenance mode.');
             Artisan::call('down');
-            $this->info('Application is now in maintenance mode.');
+            $this->info('Application is in maintenance mode now.');
         }
     }
 
@@ -200,7 +199,7 @@ class Adyatan extends Command
         if ($this->shouldDisableMaintenanceMode) {
             $this->warn('Disabling maintenance mode.');
             Artisan::call('up');
-            $this->info('Application is now live.');
+            $this->info('Application is live now.');
         }
     }
 
