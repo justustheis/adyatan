@@ -1,6 +1,6 @@
 # Adyatan for Laravel
-[![Build Status](https://travis-ci.com/justustheis/adyatan.svg?branch=master)](https://travis-ci.com/justustheis/adyatan) [![codecov](https://codecov.io/gh/justustheis/adyatan/branch/master/graph/badge.svg)](https://codecov.io/gh/justustheis/adyatan)
-![Maintenance](https://img.shields.io/maintenance/yes/2020)
+[![Build Status](http://cloud.j-theis.de:8080/buildStatus/icon?job=Jenkins+%28Adyatan%29)](http://cloud.j-theis.de:8080/job/Jenkins%20(Adyatan)/)(https://codecov.io/gh/justustheis/adyatan/branch/master/graph/badge.svg)](https://codecov.io/gh/justustheis/adyatan)
+![Maintenance](https://img.shields.io/maintenance/yes/2021)
 ![Packagist](https://img.shields.io/packagist/dt/justustheis/adyatan)
 ![Packagist Version](https://img.shields.io/packagist/v/justustheis/adyatan)
 ![GitHub issues](https://img.shields.io/github/issues/justustheis/adyatan)
@@ -13,8 +13,8 @@ Take a look at [contributing.md](contributing.md) to see a to do list.
 
 ## Installation
 > **Requires:**
-- **[PHP 7.2+](https://php.net/releases/)**
-- **[Laravel 6.0+](https://github.com/laravel/laravel)**
+- **[PHP 7.4+](https://php.net/releases/)**
+- **[Laravel 7.0+](https://github.com/laravel/laravel)**
 
 Via Composer
 
