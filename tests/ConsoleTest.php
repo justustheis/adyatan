@@ -1,7 +1,10 @@
 <?php
 
+// phpcs:disable PSR1.Methods.CamelCapsMethodName
+
 namespace JustusTheis\Adyatan\Tests;
 
+use Mockery;
 use Illuminate\Support\Facades\Artisan;
 
 class ConsoleTest extends TestCase
@@ -44,14 +47,20 @@ class ConsoleTest extends TestCase
         config(['adyatan.password' => 'testPassword']);
         $this->expectException(\RuntimeException::class);
         $this->artisan('update')
-            ->expectsQuestion('What is the password? (Your Input will not show. This is normal.)', "wrongPassword")
+            ->expectsQuestion('What is the password? (Your Input will not show. This is normal.)', 'wrongPassword')
             ->expectsOutput('Password incorrect.');
     }
 
     /** @test */
     public function it_wont_run_if_app_is_in_production_and_running_in_production_is_disabled()
     {
-        // @ToDo
+        config(['adyatan.run_in_production' => false]);
+        app()->detectEnvironment(function () {
+            return 'production';
+        });
+        $this->expectException(\RuntimeException::class);
+        $this->artisan('update')
+            ->expectsOutput('Adyatan has been disabled for production. You can enable it in the adyatan config.');
     }
 
     /** @test */
@@ -59,7 +68,7 @@ class ConsoleTest extends TestCase
     {
         config(['adyatan.password' => 'testPassword']);
         $this->artisan('update --interactive')
-            ->expectsQuestion('What is the password? (Your Input will not show. This is normal.)', "testPassword")
+            ->expectsQuestion('What is the password? (Your Input will not show. This is normal.)', 'testPassword')
             ->expectsQuestion('Do you wish to put your application in maintenance mode?', true)
             ->expectsQuestion('Do you wish to disable maintenance mode afterwards?', true)
             ->expectsQuestion('Do you wish to restart your supervisor?', false)
@@ -148,5 +157,4 @@ class ConsoleTest extends TestCase
             ->expectsOutput('Application updated!')
             ->expectsOutput('Thank you for using Adyatan!');
     }
-
 }

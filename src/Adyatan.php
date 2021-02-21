@@ -100,7 +100,7 @@ class Adyatan extends Command
         $this->buildCaches();
         $this->restartSupervisor();
         $this->disableMaintenance();
-        $this->line("");
+        $this->line('');
         $this->info('Application updated!');
         $this->info('Thank you for using Adyatan!');
     }
@@ -112,14 +112,14 @@ class Adyatan extends Command
      */
     protected function questions(): void
     {
-        $this->shouldEnableMaintenanceMode = $this->confirm('Do you wish to put your application in maintenance mode?', true);
+        $this->shouldEnableMaintenanceMode  = $this->confirm('Do you wish to put your application in maintenance mode?', true);
         $this->shouldDisableMaintenanceMode = $this->confirm('Do you wish to disable maintenance mode afterwards?', true);
-        $this->shouldRestartSupervisor = $this->confirm('Do you wish to restart your supervisor?', true);
-        $this->shouldClearCaches = $this->confirm('Do you wish to clear the application caches?', true);
-        $this->shouldRebuildCaches = $this->confirm('Do you wish to rebuild the application caches afterwards?', true);
-        $this->shouldPullFromGit = $this->confirm('Do you wish to pull from git?', true);
-        $this->shouldUpdateDependencies = $this->confirm('Do you wish to update the application dependencies?', true);
-        $this->shouldMigrateTables = $this->confirm('Do you wish to migrate your tables?', true);
+        $this->shouldRestartSupervisor      = $this->confirm('Do you wish to restart your supervisor?', true);
+        $this->shouldClearCaches            = $this->confirm('Do you wish to clear the application caches?', true);
+        $this->shouldRebuildCaches          = $this->confirm('Do you wish to rebuild the application caches afterwards?', true);
+        $this->shouldPullFromGit            = $this->confirm('Do you wish to pull from git?', true);
+        $this->shouldUpdateDependencies     = $this->confirm('Do you wish to update the application dependencies?', true);
+        $this->shouldMigrateTables          = $this->confirm('Do you wish to migrate your tables?', true);
     }
 
     /**
@@ -129,14 +129,14 @@ class Adyatan extends Command
      */
     protected function setOptions(): void
     {
-        $this->shouldEnableMaintenanceMode = config('adyatan.options.shouldEnableMaintenanceMode');
+        $this->shouldEnableMaintenanceMode  = config('adyatan.options.shouldEnableMaintenanceMode');
         $this->shouldDisableMaintenanceMode = config('adyatan.options.shouldDisableMaintenanceMode');
-        $this->shouldRestartSupervisor = config('adyatan.options.shouldRestartSupervisor');
-        $this->shouldClearCaches = config('adyatan.options.shouldClearCaches');
-        $this->shouldRebuildCaches = config('adyatan.options.shouldRebuildCaches');
-        $this->shouldPullFromGit = config('adyatan.options.shouldPullFromGit');
-        $this->shouldUpdateDependencies = config('adyatan.options.shouldUpdateDependencies');
-        $this->shouldMigrateTables = config('adyatan.options.shouldMigrateTables');
+        $this->shouldRestartSupervisor      = config('adyatan.options.shouldRestartSupervisor');
+        $this->shouldClearCaches            = config('adyatan.options.shouldClearCaches');
+        $this->shouldRebuildCaches          = config('adyatan.options.shouldRebuildCaches');
+        $this->shouldPullFromGit            = config('adyatan.options.shouldPullFromGit');
+        $this->shouldUpdateDependencies     = config('adyatan.options.shouldUpdateDependencies');
+        $this->shouldMigrateTables          = config('adyatan.options.shouldMigrateTables');
     }
 
     /**
@@ -149,7 +149,7 @@ class Adyatan extends Command
     {
         if (\App::environment() == 'production' && ! config('adyatan.run_in_production')) {
             $this->error('Adyatan has been disabled for production. You can enable it in the adyatan config.');
-			throw new \RuntimeException('Adyatan has been disabled for production. You can enable it in the adyatan config.');
+            throw new \RuntimeException('Adyatan has been disabled for production. You can enable it in the adyatan config.');
         }
     }
 
@@ -161,7 +161,7 @@ class Adyatan extends Command
      */
     protected function passwordProtection(): void
     {
-        if ( ! config('adyatan.password')) {
+        if (! config('adyatan.password')) {
             return;
         }
 
@@ -169,10 +169,10 @@ class Adyatan extends Command
 
         if ($password == config('adyatan.password')) {
             return;
-		}
+        }
 
-		$this->error('Password incorrect.');
-		throw new \RuntimeException('Password incorrect.');
+        $this->error('Password incorrect.');
+        throw new \RuntimeException('Password incorrect.');
     }
 
     /**
@@ -210,7 +210,7 @@ class Adyatan extends Command
      */
     protected function clearCaches(): void
     {
-        if ( ! $this->shouldClearCaches) {
+        if (! $this->shouldClearCaches) {
             return;
         }
         $this->warn('Clearing Caches');
@@ -227,7 +227,7 @@ class Adyatan extends Command
      */
     protected function buildCaches(): void
     {
-        if ( ! $this->shouldRebuildCaches) {
+        if (! $this->shouldRebuildCaches) {
             return;
         }
         $this->warn('Rebuilding Caches');
@@ -243,7 +243,7 @@ class Adyatan extends Command
      */
     protected function pullFromGit(): void
     {
-        if ( ! $this->shouldPullFromGit) {
+        if (! $this->shouldPullFromGit) {
             return;
         }
         $this->warn('Pulling from Git');
@@ -258,7 +258,7 @@ class Adyatan extends Command
      */
     protected function updateDependencies(): void
     {
-        if ( ! $this->shouldUpdateDependencies) {
+        if (! $this->shouldUpdateDependencies) {
             return;
         }
         $this->warn('Updating dependencies');
@@ -273,7 +273,7 @@ class Adyatan extends Command
      */
     protected function migrateTables(): void
     {
-        if ( ! $this->shouldMigrateTables) {
+        if (! $this->shouldMigrateTables) {
             return;
         }
         $this->warn('Migrating Tables');
@@ -290,7 +290,7 @@ class Adyatan extends Command
      */
     protected function restartSupervisor(): void
     {
-        if ( ! $this->shouldRestartSupervisor) {
+        if (! $this->shouldRestartSupervisor) {
             return;
         }
         shell_exec('sudo service supervisor restart');
